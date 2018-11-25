@@ -100,8 +100,6 @@ if __name__ == '__main__':
             command = lst
             if len(command) == 0:
                 pass
-            if command[0] == "pwd":
-                print(os.getcwd())
             elif command[0] == "cd":
                 cd()
             elif command[0] == 'printenv':
