@@ -2,20 +2,18 @@
 import os
 import subprocess
 
+
 def cd():
     if len(command) == 1:
-        path = ""
-    else:
-        path = command[1]
-    if path == "":
-        os.chdir(os.environ["HOME"])
-    elif path == "..":
-        os.chdir("../")
+        try:
+            os.chdir(os.environ["HOME"])
+        except KeyError:
+            print("intek-sh: cd: HOME not set")
     else:
         try:
-            os.chdir(path)
+            os.chdir(os.path.abspath(command[1]))
         except FileNotFoundError:
-            print("intek-sh: cd: ", path, ": No such file or directory")
+            print("intek-sh: cd: ", command[1], ": No such file or directory")
 
 
 def printenv():
@@ -26,6 +24,7 @@ def printenv():
             print(os.environ[command[1]])
         else:
             return
+
 
 def export():
     if len(command) == 1:
@@ -51,6 +50,7 @@ def unset():
             else:
                 return
 
+
 def my_exit():
     if len(command) == 1:
         print("exit")
@@ -58,6 +58,7 @@ def my_exit():
         print("exit")
     else:
         print("exit\nintek-sh: exit:")
+
 
 def run_file():
     if "./" in command[0]:
@@ -81,10 +82,12 @@ def run_file():
         if flag is not True:
             print("intek-sh: ", command[0], ": command not found")
 
+
 if __name__ == '__main__':
-    while True:
-        global command
-        try:
+    global command
+    command = None
+    try:
+        while command != 'exit':
             command = input('intek-sh$ ').split(" ")
             #  to remove '', '', '', ''... in command
             lst = []
@@ -92,20 +95,22 @@ if __name__ == '__main__':
                 if item != "":
                     lst.append(item)
             command = lst
-        except EOFError:
-            pass
-        if len(command) == 0:
-            pass
-        if command[0] == "pwd":
-            print(os.getcwd())
-        elif command[0] == "cd":
-            cd()
-        elif command[0] == 'printenv':
-            printenv()
-        elif command[0] == "export":
-            export()
-        elif command[0] == "exit":
-            my_exit()
-            exit()
-        else:
-            run_file()
+            if len(command) == 0:
+                pass
+            if command[0] == "pwd":
+                print(os.getcwd())
+            elif command[0] == "cd":
+                cd()
+            elif command[0] == 'printenv':
+                printenv()
+            elif command[0] == "export":
+                export()
+            elif command[0] == "unset":
+                unset()
+            elif command[0] == "exit":
+                my_exit()
+                exit()
+            else:
+                run_file()
+    except EOFError:
+        pass
