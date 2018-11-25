@@ -80,6 +80,7 @@ def run_file():
             if os.path.exists(item + "/" + command[0]):
                 subprocess.run([item + "/" + command[0]] + command[1:])
                 flag = True
+                break
         if flag is not True:
             print("intek-sh:", command[0], ": command not found")
 
