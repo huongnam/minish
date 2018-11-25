@@ -18,7 +18,8 @@ def cd():
 
 def printenv():
     if len(command) == 1:
-        print(os.environ)
+        for key in os.environ.keys():
+            print(key + "=" + os.environ[key])
     else:
         if command[1] in os.environ.keys():
             print(os.environ[command[1]])
@@ -65,7 +66,7 @@ def run_file():
         try:
             subprocess.run(command[0])
         except PermissionError:
-            print("intek-sh: ", command[0], ": Permission denied")
+            print("intek-sh:", command[0], ": Permission denied")
         except FileNotFoundError:
             print("intek-sh: ", command[0], ": No such file or directory")
     else:
@@ -73,14 +74,14 @@ def run_file():
         try:
             PATH = os.environ["PATH"].split(":")
         except KeyError:
-            print("intek-sh: ", command[0], ": command not found")
+            print("intek-sh:", command[0], ": command not found")
             return
         for item in PATH:
             if os.path.exists(item + "/" + command[0]):
                 subprocess.run([item + "/" + command[0]] + command[1:])
                 flag = True
         if flag is not True:
-            print("intek-sh: ", command[0], ": command not found")
+            print("intek-sh:", command[0], ": command not found")
 
 
 if __name__ == '__main__':
