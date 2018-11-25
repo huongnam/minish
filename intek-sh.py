@@ -83,10 +83,21 @@ def run_file():
 if __name__ == '__main__':
     while True:
         global command
-        command = input('intek-sh$ ').split(" ")
+        try:
+            command = input('intek-sh$ ').split(" ")
+            #  to remove '', '', '', ''... in command
+            lst = []
+            for item in command:
+                if item != "":
+                    lst.append(item)
+            command = lst
+        except EOFError:
+            pass
         if len(command) == 0:
             pass
-        elif command[0] == 'cd':
+        if command[0] == "pwd":
+            print(os.getcwd())
+        elif command[0] == "cd":
             cd()
         elif command[0] == 'printenv':
             printenv()
