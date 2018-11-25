@@ -90,8 +90,8 @@ if __name__ == '__main__':
     global command
     command = None
     try:
-        while command != 'exit':
-            command = input('intek-sh$ ').split(" ")
+        while command != "exit":
+            command = input("intek-sh$ ").split(" ")
             #  to remove '', '', '', ''... in command
             lst = []
             for item in command:
@@ -102,7 +102,7 @@ if __name__ == '__main__':
                 pass
             elif command[0] == "cd":
                 cd()
-            elif command[0] == 'printenv':
+            elif command[0] == "printenv":
                 printenv()
             elif command[0] == "export":
                 export()
