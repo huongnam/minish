@@ -13,7 +13,7 @@ def cd():
         try:
             os.chdir(os.path.abspath(command[1]))
         except FileNotFoundError:
-            print("intek-sh: cd: ", command[1], ": No such file or directory")
+            print("intek-sh: cd:", command[1], ": No such file or directory")
 
 
 def printenv():
@@ -68,7 +68,7 @@ def run_file():
         except PermissionError:
             print("intek-sh:", command[0], ": Permission denied")
         except FileNotFoundError:
-            print("intek-sh: ", command[0], ": No such file or directory")
+            print("intek-sh:", command[0], ": No such file or directory")
     else:
         flag = False
         try:
